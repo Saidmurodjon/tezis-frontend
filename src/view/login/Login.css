@@ -1,0 +1,9 @@
+.loginCon {
+  height: 100vh;
+  border-radius: 15px;
+}
+.bg-login-image {
+  background-image: url("../../assets//farpi.jpeg");
+  background-repeat: no-repeat;
+  background-size:cover;
+}
