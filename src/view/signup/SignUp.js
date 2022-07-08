@@ -142,7 +142,7 @@ const SignUp = () => {
                     {/* type */}
                     <div className="form-group row mt-2">
                       <div className="col-sm-4 mb-3 mb-sm-0">
-                        <label className="pointer" htmlFor="email">
+                        <label className="pointer" htmlFor="flexRadioDefault2">
                           Holatni tanlang
                         </label>
                       </div>

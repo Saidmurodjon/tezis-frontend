@@ -3,8 +3,8 @@ import "./Navbar.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Profil = ({ profil = false }) => {
-  const admin = JSON.parse(localStorage.getItem("admin"));
+const Profil = ({ type = "" }) => {
+  const user = JSON.parse(localStorage.getItem(type));
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -13,23 +13,52 @@ const Profil = ({ profil = false }) => {
     setOpen(!open);
   };
   const Chiqish = () => {
-    navigate("/");
     sessionStorage.removeItem("jwt-token");
+    localStorage.removeItem("state");
+    navigate("/");
   };
   return (
     <>
       <div className="d-flex justify-content-between align-items-center">
-        <i className="bi bi-bell h4 text-secondary me-5"></i>
+        <h5 className="d-inline m-3" onClick={() => navigate("/")}>
+          Yangi
+        </h5>
+        <h5 className="d-inline m-3" onClick={() => navigate("/d")}>
+          Yangi
+        </h5>
+        <h5 className="d-inline m-3" onClick={() => navigate("/d")}>
+          Yangi
+        </h5>
+        {type === "teacher" ? (
+          <>
+            {" "}
+            <h5 className="d-inline m-3" onClick={() => navigate("/")}>
+              Yangi habar yaratish
+            </h5>
+          </>
+        ) : null}
+        {type === "chief" ? (
+          <>
+            {" "}
+            <h5 className="d-inline m-3" onClick={() => navigate("/")}>
+              O'qituvchilar
+            </h5>
+            <h5 className="d-inline m-3" onClick={() => navigate("/d")}>
+              Tezis
+            </h5>
+          </>
+        ) : null}
         <div className="profil-content d-flex align-items-center position-relative">
-          {profil ? (
+          {type ? (
             <>
+              <i className="bi bi-bell h5 text-secondary me-5"></i>
               <div className="d-flex flex-column align-items-end">
-                <span className="span1">{admin.admin}</span>
-                <span className="text-secondary span2">Chief</span>
+                <span className="span1">{user.fullName}</span>
+                <span className="text-secondary span2">{type}</span>
               </div>
               <img src={ProfilImg} alt="" className="rounded-pill ms-3" />
               <i
-                className="bi bi-chevron-down h4 mt-2 ms-2 text-secondary"
+                className="bi bi-chevron-down h5 mt-2 ms-2 text-secondary"
                 onClick={Close}
               ></i>
               <div
@@ -51,7 +80,12 @@ const Profil = ({ profil = false }) => {
             </>
           ) : (
             <>
-              <button className="btn btn-success" onClick={()=>navigate("/login")}>Login</button>
+              <button
+                className="btn btn-success"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </button>
             </>
           )}
         </div>

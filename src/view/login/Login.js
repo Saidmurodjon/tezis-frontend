@@ -11,7 +11,7 @@ function Login() {
     login: "",
     password: "",
   });
-
+  // console.log(login);
   const changeHandler = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
     setCheck(false);
@@ -25,66 +25,23 @@ function Login() {
   const Check = async () => {
     try {
       const res = await axios.post(`${config.SERVER_URL}login`, login);
+      // console.log(res);
       if (res.status === 200) {
-        navigate("/home");
+        navigate(`/${res.data.user.role}`);
+        // console.log(res.data.user);
         sessionStorage.setItem(`jwt-token`, res.data.jwt_token);
-        localStorage.setItem("admin", JSON.stringify(res.data.message));
+        localStorage.setItem(res.data.user.role, JSON.stringify(res.data.user));
+        localStorage.setItem("state", JSON.stringify(res.data.user.role));
       }
     } catch (err) {
-      console.log(err);
-      if (err.response.status === 402) {
+      if (err.response.status === 401) {
         setCheck(true);
       }
+      console.log(err);
     }
   };
 
   return (
-    // <div className="loginCon bg-light d-flex justify-content-center align-items-center">
-    //   <div className="container  p-5 ">
-    //     <div className="row justify-content-center">
-    //       <div className="col-md-8 p-5">
-    //         <div className="card border-0">
-    //           <h2 className="p-4 text-sm-center">Login</h2>
-    //           <form onSubmit={Submit} className="globalBorder border-light p-4">
-    //             <input
-    //               className="form-control form-control-lg bg-light ps-2 w-75 mx-auto"
-    //               type="text"
-    //               placeholder="Login"
-    //               name="login"
-    //               value={login.login}
-    //               onChange={changeHandler}
-    //             />
-
-    //             <input
-    //               className="form-control form-control-lg mt-5 bg-light ps-2 w-75 mx-auto"
-    //               type="password"
-    //               placeholder="parol"
-    //               name="password"
-    //               value={login.password}
-    //               onChange={changeHandler}
-    //             />
-    //             <div className="">
-    //               {check ? (
-    //                 <h4 className="text-danger mt-3 mx-auto text-center">
-    //                   login yoki parol xato !
-    //                 </h4>
-    //               ) : (
-    //                 false
-    //               )}
-    //             </div>
-    //             <input
-    //               onClick={() => Check()}
-    //               value="Login"
-    //               type="submit"
-    //               className="btn btn-primary mt-5 px-5 py-2 d-block my-3 mx-auto"
-    //             />
-    //           </form>
-    //           <h5 className="ms-5 text-primary" onClick={()=>navigate("/sign")}>Create profil</h5>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-xl-10 col-lg-12 col-md-9">
@@ -97,14 +54,17 @@ function Login() {
                     <div className="text-center">
                       <h1 className="h4 text-gray-900 mb-4">Welcome Back!</h1>
                     </div>
-                    <form className="user">
+                    <form className="user" onSubmit={Submit}>
                       <div className="form-group">
                         <input
-                          type="email"
+                          type="text"
                           className="form-control form-control-lg bg-light ps-2 w-100 m-1 mx-auto form-control-user"
                           id="exampleInputEmail"
                           aria-describedby="emailHelp"
                           placeholder="Enter Email Address..."
+                          name="login"
+                          value={login.login}
+                          onChange={changeHandler}
                         />
                       </div>
                       <div className="form-group">
@@ -113,10 +73,20 @@ function Login() {
                           className="form-control form-control-lg bg-light ps-2 w-100 m-1 mx-auto form-control-user"
                           id="exampleInputPassword"
                           placeholder="Password"
+                          name="password"
+                          value={login.password}
+                          onChange={changeHandler}
                         />
                       </div>
+                      {check ? (
+                        <div className="form-group">
+                          <h5 className="text-center text-danger">
+                            Login yoki parol noto'g'ri!
+                          </h5>
+                        </div>
+                      ) : null}
                       <input
-                        // onClick={() => Check()}
+                        onClick={() => Check()}
                         value="Login"
                         type="submit"
                         className="btn btn-primary mt-5 px-5 py-2 d-block my-3 mx-auto"
