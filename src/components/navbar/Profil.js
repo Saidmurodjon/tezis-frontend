@@ -20,19 +20,28 @@ const Profil = ({ type = "" }) => {
   return (
     <>
       <div className="d-flex justify-content-between align-items-center">
-        <h5 className="d-inline m-3" onClick={() => navigate("/")}>
-          Yangi
+        <h5 className="d-inline m-3 pointer" onClick={() => navigate("/")}>
+          Bosh sahifa
         </h5>
-        <h5 className="d-inline m-3" onClick={() => navigate("/d")}>
+        {/* <h5 className="d-inline m-3" onClick={() => navigate("/d")}>
           Yangi
-        </h5>
-        <h5 className="d-inline m-3" onClick={() => navigate("/d")}>
+        </h5> */}
+        {/* <h5 className="d-inline m-3" onClick={() => navigate("/d")}>
           Yangi
-        </h5>
+        </h5> */}
         {type === "teacher" ? (
           <>
             {" "}
-            <h5 className="d-inline m-3" onClick={() => navigate("/")}>
+            <h5
+              className="d-inline m-3 pointer"
+              onClick={() => navigate("/teacher")}
+            >
+              So'rovlar tarixi
+            </h5>
+            <h5
+              className="d-inline m-3 pointer"
+              onClick={() => navigate("/teacher/document")}
+            >
               Yangi habar yaratish
             </h5>
           </>
@@ -40,11 +49,17 @@ const Profil = ({ type = "" }) => {
         {type === "chief" ? (
           <>
             {" "}
-            <h5 className="d-inline m-3" onClick={() => navigate("/")}>
-              O'qituvchilar
-            </h5>
-            <h5 className="d-inline m-3" onClick={() => navigate("/d")}>
+            <h5
+              className="d-inline m-3 pointer"
+              onClick={() => navigate("/chief")}
+            >
               Tezis
+            </h5>
+            <h5
+              className="d-inline m-3 pointer"
+              onClick={() => navigate("/chief/teachers")}
+            >
+              O'qituvchilar
             </h5>
           </>
         ) : null}
@@ -58,7 +73,7 @@ const Profil = ({ type = "" }) => {
               </div>
               <img src={ProfilImg} alt="" className="rounded-pill ms-3" />
               <i
-                className="bi bi-chevron-down h5 mt-2 ms-2 text-secondary"
+                className="bi bi-chevron-down h5 mt-2 ms-2 text-secondary pointer"
                 onClick={Close}
               ></i>
               <div
@@ -72,7 +87,7 @@ const Profil = ({ type = "" }) => {
                   <li>
                     <p onClick={Chiqish}>Log out</p>
                   </li>
-                  <li>
+                  <li onClick={() => navigate(`/${type}/settings/${user._id}`)}>
                     <p>Settings</p>
                   </li>
                 </ul>
